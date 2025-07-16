@@ -1,0 +1,19 @@
+[project]
+name = "code-assistants"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "authlib>=1.6.0",
+    "chainlit>=2.6.0",
+    "griffe>=1.7.3",
+    "langchain-core>=0.3.68",
+    "langchain-mistralai>=0.2.10",
+    "langgraph>=0.5.1",
+    "langgraph-supervisor>=0.0.27",
+    "mistralai>=1.9.1",
+    "numpy>=2.3.1",
+    "pandas>=2.3.0",
+    "python-dotenv>=1.1.1",
+]
