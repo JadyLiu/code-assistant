@@ -7,6 +7,7 @@ requires-python = ">=3.13"
 dependencies = [
     "authlib>=1.6.0",
     "chainlit>=2.6.0",
+    "coverage>=7.9.2",
     "griffe>=1.7.3",
     "langchain-core>=0.3.68",
     "langchain-mistralai>=0.2.10",

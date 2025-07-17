@@ -13,7 +13,7 @@ repos:
     hooks:
       - id: mypy
         additional_dependencies: [types-ujson==5.10.0.20240515, types-simplejson==3.20.0.20250218, types-requests, types-tabulate==0.9.0.20241207]
-  
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
     rev: v0.12.1
