@@ -56,7 +56,7 @@ The application is built with a multi-agent system:
 
 4. Run the application:
    ```bash
-   uv run -- chainlit run app.py -w
+   uv run -- chainlit run app.py
    ```
 
 5. Access the web interface at `http://localhost:8000`

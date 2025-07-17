@@ -31,6 +31,7 @@ code_explainer = RunnableLambda(code_explainer_agent)
 code_explainer.name = "code_explainer"
 llm = ChatMistralAI(model="mistral-medium-latest", temperature=0)
 
+
 def extract_agent_from_text(text: str) -> str:
     agents = ["code_explainer", "code_generator", "github_agent"]
     for line in reversed(text.strip().splitlines()):
@@ -40,22 +41,24 @@ def extract_agent_from_text(text: str) -> str:
                 return agent
     raise ValueError("No agent decision found in supervisor output.")
 
+
 class AgentState(TypedDict, total=False):
     input: str  # raw user input
     output: str
-    supervisor_decision: str 
+    supervisor_decision: str
+
 
 async def code_generator_node(state: AgentState) -> AgentState:
     query = state["input"]
     msg = cl.Message(content="🛠️ Generating code...")
     await msg.send()
-    
+
     context_docs = []
     if code_generator_agent.retrieval_agent:
         context_docs = code_generator_agent.retrieval_agent.retrieve(query)
-    
+
     full_content = ""
-    
+
     async for chunk in code_generator_agent.agenerate_code_stream(query, context_docs):
         if chunk["type"] == "content":
             full_content += chunk["data"]
@@ -72,14 +75,15 @@ async def code_generator_node(state: AgentState) -> AgentState:
                 **state,
                 "output": chunk["data"],
             }
-    
+
     msg.content = f"```python\n{full_content}\n```"
     await msg.update()
-    
+
     return {
         **state,
         "output": full_content,
     }
+
 
 async def code_explainer_node(state: AgentState) -> AgentState:
     query = state["input"]
@@ -90,12 +94,13 @@ async def code_explainer_node(state: AgentState) -> AgentState:
     result = await code_explainer.ainvoke(input_data)
 
     print(f"Code explainer result: {result}")
-    msg.content = result['messages'][0]['content']
+    msg.content = result["messages"][0]["content"]
     await msg.update()
     return {
         **state,
-        "output": result['messages'][0]['content'],
+        "output": result["messages"][0]["content"],
     }
+
 
 async def github_agent_node(state: AgentState) -> AgentState:
     query = state["input"]
@@ -128,19 +133,22 @@ async def github_agent_node(state: AgentState) -> AgentState:
         "output": result,
     }
 
+
 async def supervisor_node(state: AgentState) -> AgentState:
     query = state["input"]
     messages = [
-        HumanMessage(content=(
-            f"You are a supervisor managing three agents:\n"
-            f"- code_generator: for generating code.\n"
-            f"- code_explainer: for explaining code.\n"
-            f"- github_agent: for handling GitHub-related tasks and issues.\n"
-            f"Decide which agent should handle the user query below. "
-            f"Provide a brief reasoning and then the final decision with the agent name.\n"
-            f"User query: {query}\n"
-            f"Output with the agent name with `code_generator`, `code_explainer`, or `github_agent` ONLY."
-        ))
+        HumanMessage(
+            content=(
+                f"You are a supervisor managing three agents:\n"
+                f"- code_generator: for generating code.\n"
+                f"- code_explainer: for explaining code.\n"
+                f"- github_agent: for handling GitHub-related tasks and issues.\n"
+                f"Decide which agent should handle the user query below. "
+                f"Provide a brief reasoning and then the final decision with the agent name.\n"
+                f"User query: {query}\n"
+                f"Output with the agent name with `code_generator`, `code_explainer`, or `github_agent` ONLY."
+            )
+        )
     ]
     msg = cl.Message(content="🧠 **Supervisor Thinking...**\n")
     await msg.send()
@@ -151,7 +159,7 @@ async def supervisor_node(state: AgentState) -> AgentState:
             # Update the message with the streamed content
             msg.content = f"🧠 **Supervisor Thought Process:**\n{decision_content}"
             await msg.update()
-    
+
     try:
         print(f"Supervisor decision: {decision_content}")
         next_agent = extract_agent_from_text(decision_content)
@@ -162,9 +170,11 @@ async def supervisor_node(state: AgentState) -> AgentState:
     await cl.Message(content=f"🤖 **Supervisor routed to:** `{next_agent}`").send()
     return {**state, "supervisor_decision": next_agent}
 
-def route_supervisor(state: AgentState):
+
+def route_supervisor(state: AgentState) -> str:
     print(f"Routing decision: {state['supervisor_decision']}")
     return state["supervisor_decision"]
+
 
 builder = StateGraph(AgentState)
 builder.add_node("supervisor", supervisor_node, async_fn=True)
@@ -176,7 +186,11 @@ builder.set_entry_point("supervisor")
 builder.add_conditional_edges(
     "supervisor",
     route_supervisor,
-    {"code_generator": "code_generator", "code_explainer": "code_explainer", "github_agent": "github_agent"},
+    {
+        "code_generator": "code_generator",
+        "code_explainer": "code_explainer",
+        "github_agent": "github_agent",
+    },
 )
 builder.add_edge("code_generator", END)
 builder.add_edge("code_explainer", END)
@@ -184,8 +198,9 @@ builder.add_edge("github_agent", END)
 
 graph = builder.compile()
 
+
 @cl.on_chat_start
-async def startup():
+async def startup() -> None:
     await cl.ChatSettings(
         [
             Switch(
@@ -201,12 +216,14 @@ async def startup():
 
     await cl.Message(content="Codebase indexed and ready! Ask me anything.").send()
 
+
 @cl.on_settings_update
-async def update_settings(settings):
+async def update_settings(settings: dict) -> None:
     cl.user_session.set("use_rag", settings["use_rag"])
 
+
 @cl.on_message
-async def on_message(message: cl.Message):
+async def on_message(message: cl.Message) -> None:
     query = message.content.strip()
 
     # Update chat history with user message

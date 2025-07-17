@@ -12,8 +12,9 @@ load_dotenv()
 api_key = os.environ.get("MISTRAL_API_KEY")
 HF_TOKEN = os.environ.get("HF_TOKEN")
 
+
 class VectorStoreOperations:
-    def __init__(self, user_id: str):
+    def __init__(self, user_id: str) -> None:
         self.user_id = user_id
         self.embeddings = MistralAIEmbeddings(model=EMBEDDING_MODEL)
         self.vector_store = InMemoryVectorStore(embedding=self.embeddings)
@@ -29,7 +30,9 @@ class VectorStoreOperations:
             try:
                 with open(file_path, "r", encoding="utf-8") as f:
                     content = f.read()
-                documents.append(Document(page_content=content, metadata={"source": str(file_path)}))
+                documents.append(
+                    Document(page_content=content, metadata={"source": str(file_path)})
+                )
             except Exception as e:
                 print(f"Failed to read {file_path}: {e}")
         return documents
@@ -37,13 +40,16 @@ class VectorStoreOperations:
     def add_documents(self, documents: List[Document]) -> None:
         try:
             self.vector_store.add_documents(documents=documents)
-            print(f"Added {len(documents)} documents to vector store for user {self.user_id}")
+            print(
+                f"Added {len(documents)} documents to vector store for user {self.user_id}"
+            )
         except Exception as e:
             print(f"Error adding documents: {str(e)}")
             raise
 
+
 class RetrievalAgent:
-    def __init__(self, retriever: Optional[object]):
+    def __init__(self, retriever: Optional[object]) -> None:
         self.retriever = retriever
 
     def retrieve(self, query: str) -> List[Document]:
@@ -51,10 +57,15 @@ class RetrievalAgent:
             print("Retriever not initialized, returning empty document list.")
             return []
         try:
-            docs = self.retriever.invoke(query)
+            # Type checking shows retriever might not have invoke method
+            # We'll check at runtime and handle the AttributeError
+            if hasattr(self.retriever, "invoke"):
+                docs = self.retriever.invoke(query)
+            else:
+                print("Retriever does not have invoke method")
+                return []
             print(f"Retrieved {len(docs)} documents for query: {query}")
             return docs
         except Exception as e:
             print(f"Error during retrieval for query '{query}': {e}")
             return []
-

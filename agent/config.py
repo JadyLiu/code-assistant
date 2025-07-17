@@ -1,7 +1,9 @@
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SOURCE_CODE = BASE_DIR / "demo-source-code" # This is where the source code will be stored
+SOURCE_CODE = (
+    BASE_DIR / "demo-source-code"
+)  # This is where the source code will be stored
 SOURCE_CODE.mkdir(parents=True, exist_ok=True)
 
 DEV_MODEL = "devstral-small-2505"
