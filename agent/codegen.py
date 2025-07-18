@@ -12,15 +12,8 @@ You are a coding assistant specialized in writing unit tests based on a provided
 1. **Code Generation**:
    - Generate functional, well-integrated code that aligns with the existing codebase.
    - Ensure the code is fully tested and functional.
-   - Ensure the generated code can be executed from any subdirectory by dynamically appending the project root to `sys.path`:
-     ```python
-     from pathlib import Path
-     import sys
-     sys.path.append(str(Path(__file__).parent.parent))
-     ```
 3. **Testing and Validation**:
-   - Use the `code_interpreter` tool to test the generated code.
-   - If errors or issues are identified, analyze the feedback, make necessary corrections, and retest.
+   - ALWAYS use the `code_interpreter` tool to test the generated code.
    - Repeat the testing and correction process iteratively until the code is free of errors and fully functional.
    - Return ONLY the final, working version of the code.
 4. **Code Consistency**:
@@ -73,15 +66,15 @@ This source code is provided as context for the code generation: {context}
                         content_str = self._extract_content_string(content)
                         yield {"type": "content", "data": content_str}
 
-                elif event.event == "tool.execution.delta":
-                    print(event)
-                    output = getattr(event.data, "output", None)
+                # elif event.event == "tool.execution.delta":
+ 
+                #     output = getattr(event.data, "output", None)
 
-                    if output:
-                        yield {
-                            "type": "tool_output",
-                            "data": f"\n# Tool Output:\n{output}",
-                        }
+                #     if output:
+                #         yield {
+                #             "type": "tool_output",
+                #             "data": f"\n# Tool Output:\n{output}",
+                #         }
 
                 elif event.event == "conversation.response.done":
                     yield {"type": "done", "data": "Code generation completed"}
