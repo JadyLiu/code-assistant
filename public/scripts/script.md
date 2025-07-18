@@ -1,4 +1,4 @@
-The Code Assistant AI really changes the game for developers by bringing smart, context-aware automation to every part of the development process. 
+The Code Assistant AI really changes the game for developers by bringing smart, context-aware automation to every part of the development process.
 
 When new team members are getting up to speed, they can quickly get a handle on complex systems just by asking things like, "Explain how the moving average strategy works," or "What is my code style standard?" This helps them understand the existing patterns and architecture without any hassle.
 

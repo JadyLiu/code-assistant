@@ -133,4 +133,4 @@ class GitHubAgent:
             if response.output_as_text:
                 output += response.output_as_text
 
-            return output     
+            return output

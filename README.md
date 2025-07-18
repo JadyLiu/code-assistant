@@ -14,7 +14,7 @@ Code Assistant AI is an intelligent developer productivity tool that leverages m
 
 ## Demo Scenarios
 
-Demo script is [here](public/scripts/script.md)  
+Demo script is [here](public/scripts/script.md)
 
 The application demonstrates AI capabilities in several areas:
 

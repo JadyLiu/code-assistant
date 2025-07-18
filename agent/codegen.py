@@ -38,7 +38,11 @@ class CodeGeneratorAgent:
 
     def __call__(self, input_data: dict) -> dict:
         """Simple callable interface for RunnableLambda compatibility."""
-        return {"messages": [{"role": "assistant", "content": "Use generate_code_stream instead"}]}
+        return {
+            "messages": [
+                {"role": "assistant", "content": "Use generate_code_stream instead"}
+            ]
+        }
 
     async def generate_code_stream(
         self, query: str, context_docs: List[Document]
@@ -67,7 +71,7 @@ This source code is provided as context for the code generation: {context}
                         yield {"type": "content", "data": content_str}
 
                 # elif event.event == "tool.execution.delta":
- 
+
                 #     output = getattr(event.data, "output", None)
 
                 #     if output:
@@ -82,7 +86,7 @@ This source code is provided as context for the code generation: {context}
         except Exception as e:
             yield {"type": "error", "data": f"Error generating code: {str(e)}"}
 
-    def _extract_content_string(self, content) -> str:
+    def _extract_content_string(self, content: str) -> str:
         """Extract string content from various content types."""
         if hasattr(content, "text"):
             return content.text
