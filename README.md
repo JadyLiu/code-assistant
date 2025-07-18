@@ -1,6 +1,8 @@
 # Code Assistant AI
 
-Code Assistant AI is an intelligent developer productivity tool that leverages AI agents to enhance your coding workflow. This application helps developers understand, generate, and manage code more efficiently through automated assistance.
+Code Assistant AI is an intelligent developer productivity tool that leverages multi-agent orchestration to enhance your coding workflow. This application helps developers understand, generate, and manage code more efficiently through automated assistance.
+
+![Orchestration Workflow](public/flow_diagram.png)
 
 ## Features
 

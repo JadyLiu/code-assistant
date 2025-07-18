@@ -200,6 +200,7 @@ builder.add_edge("code_explainer", END)
 builder.add_edge("github_agent", END)
 
 graph = builder.compile()
+# display(Image(graph.get_graph().draw_mermaid_png(output_file_path="public/flow_graph.png")))
 
 
 @cl.on_chat_start
