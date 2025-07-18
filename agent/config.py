@@ -9,5 +9,3 @@ SOURCE_CODE.mkdir(parents=True, exist_ok=True)
 DEV_MODEL = "devstral-small-2505"
 CODE_MODEL = "mistral-medium-latest"
 EMBEDDING_MODEL = "codestral-embed"
-
-RELEVANCE_THRESHOLD = 0.8

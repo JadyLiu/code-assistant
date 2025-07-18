@@ -23,7 +23,11 @@ class VectorStoreOperations:
         print(f"Loading files from: {SOURCE_CODE}")
         source_path = Path(SOURCE_CODE)
         target_extensions = [".py", ".md"]
-        files = [f for ext in target_extensions for f in source_path.rglob(f"*{ext}")]
+        files = [
+            f for ext in target_extensions
+            for f in source_path.rglob(f"*{ext}")
+            if "tests" not in f.parts
+        ]
 
         documents = []
         for file_path in files:

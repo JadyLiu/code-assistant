@@ -56,10 +56,9 @@ async def code_generator_node(state: AgentState) -> AgentState:
     context_docs = []
     if code_generator_agent.retrieval_agent:
         context_docs = code_generator_agent.retrieval_agent.retrieve(query)
-
     full_content = ""
 
-    async for chunk in code_generator_agent.agenerate_code_stream(query, context_docs):
+    async for chunk in code_generator_agent.generate_code_stream(query, context_docs):
         if chunk["type"] == "content":
             full_content += chunk["data"]
             msg.content = f"🛠️ Generating code...\n\n```python\n{full_content}\n```"
@@ -67,6 +66,10 @@ async def code_generator_node(state: AgentState) -> AgentState:
         elif chunk["type"] == "tool_output":
             full_content += chunk["data"]
             msg.content = f"🛠️ Generating code...\n\n```python\n{full_content}\n```"
+            await msg.update()
+        elif chunk["type"] == "file_written":
+            # New: Show file written notification
+            msg.content = f"🛠️ Generating code...\n\n```python\n{full_content}\n```\n\n✅ {chunk['data']}"
             await msg.update()
         elif chunk["type"] == "error":
             msg.content = f"❌ Error: {chunk['data']}"
