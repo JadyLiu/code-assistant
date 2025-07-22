@@ -1,7 +1,40 @@
-The Code Assistant AI really changes the game for developers by bringing smart, context-aware automation to every part of the development process.
+# Mistral Code Assistant: Developer Lifecycle Demo Script
 
-When new team members are getting up to speed, they can quickly get a handle on complex systems just by asking things like, "Explain how the moving average strategy works," or "What is my code style standard?" This helps them understand the existing patterns and architecture without any hassle.
+Have you ever wondered how AI can transform the daily workflow of a software engineer?  
+Today, we'll explore how Mistral’s code assistant supports each stage of the developer lifecycle — making the entire process more efficient and effective.
 
-For those already in the thick of development, the AI makes it a breeze to generate new features—just say, "Add a new trading strategy," and it's on it. It also helps optimize performance and create unit tests. But it doesn't stop there; the AI also takes care of daily activities, like automatically creating pull requests, tracking issues, and managing workflows through GitHub integration.
+## Code Base Understanding
 
-By handling all these routine tasks—like generating documentation, explaining code, and managing repositories—the AI frees up developers to tackle high-value problems. This keeps the code quality and consistency top-notch across the entire project.
+We start from the **Knowledge Base** — which includes code, documents, issues, PRs, and internal company standards.
+
+Using Retrieval-Augmented Generation, or RAG, Mistral can provide context-aware answers. For instance, if you ask, 'How does the authentication module interact with the database layer?' or 'What is the code style standard for my company?', Mistral can quickly provide detailed insights, helping engineers onboard faster and spend less time digging through code.
+
+## Feature Planning
+
+Imagine you're planning a new feature for your trading strategies. Mistral can help by surfacing related modules, summarizing component responsibilities, and even finding prior TODOs or open issues related to it. This ensures you have all the information you need to define the scope and review architectural constraints effectively.
+
+## Code Generation
+
+After the plan, it comes **code generation**. This is where Mistral really accelerates productivity. With context-aware capabilities, Mistral can draft internal docs, write unit tests, and suggest helper utilities, all tailored to your specific codebase.
+
+## Troubleshooting
+
+Now that we’ve seen Mistral assist with code generation, let’s move on to troubleshooting.
+
+In the demo, you saw Mistral’s code proactively analyze the generated code. If it finds an issue, it doesn’t just suggest a fix — it automatically tests the code, identifies the problem, and applies a working fix.
+
+You get a fully functional version without leaving your IDE or losing focus — all handled by Mistral in real-time.
+
+## Ops Activities
+
+Finally, during the ops phase, it helps you stay productive by surfacing open issues related to the code you just worked on, generating PR summaries, and suggesting improvements during review — like missing tests or docs.
+
+With this lifecycle powered by Mistral Code Assistant, developers can:
+- Ship features faster
+- Reduce onboarding time
+- Catch issues earlier
+- Maintain higher-quality code with less effort
+
+Let’s dive into the demo and see it in action.
+
+
