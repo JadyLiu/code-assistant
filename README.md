@@ -4,8 +4,6 @@ Code Assistant AI is an intelligent developer productivity tool that leverages m
 
 ![Use Case](public/use-case-diagram.jpg)
 
-![Orchestration Workflow](public/flow_diagram.png)
-
 Note: the code generation currently is using Mistral Code VSCode plugin.
 
 ## Features
@@ -33,6 +31,8 @@ The application demonstrates AI capabilities in several areas:
 4. **Documentation**: "Generate documentation for this code"
 
 ## Architecture
+
+![Orchestration Workflow](public/flow_diagram.png)
 
 The application is built with a multi-agent system:
 
